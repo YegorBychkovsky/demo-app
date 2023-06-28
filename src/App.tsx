@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+import "@fontsource/roboto/400.css";
+import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router";
+import { MainLayout } from "./layouts/MainLayout";
+import AuthPage from "./pages/AuthPage";
+import HomePage from "./pages/HomePage";
+import { changeLoginState } from "./redux/slices/AuthorizationSlice/slice";
+import "./scss/libs/app.scss";
 
+const username = localStorage.getItem("username");
+const password = localStorage.getItem("password");
 function App() {
+  const dispatch = useDispatch();
+  username === "admin" && password === "12345"
+    ? dispatch(changeLoginState(true))
+    : dispatch(changeLoginState(false));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/demo-app" element={<MainLayout />}>
+        <Route path="/demo-app/auth" element={<AuthPage />} />
+        <Route path="/demo-app/home" element={<HomePage />} />
+      </Route>
+    </Routes>
   );
 }
 
